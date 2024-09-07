@@ -1,7 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"log"
+)
+
+func init() {
+	log.SetPrefix("Wallet Server: ")
+}
 
 func main() {
-	fmt.Println("Hello Daya!");
+	port := flag.Uint("port", 8080, "TCP Port Number for Wallet Server")
+	gateway := flag.String("gateway", "http://127.0.0.1:5000", "Blockchain Gateway")
+	flag.Parse()
+
+	app := NewServer(uint16(*port), *gateway)
+	app.Run()
 }

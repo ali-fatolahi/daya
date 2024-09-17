@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -27,6 +28,8 @@ func (ws *Server) Status(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
 		log.Printf("Status: OK")
+		w.Header().Add("Content-Type", "application/json")
+		io.WriteString(w, "{'Status': 'OK' }")
 	default:
 		log.Printf("ERROR: Invalid HTTP Method")
 	}

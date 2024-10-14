@@ -35,7 +35,19 @@ func (ws *Server) Status(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func (ws *Server) DbStatus(w http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodGet:
+		log.Printf("Db Status: OK")
+		w.Header().Add("Content-Type", "application/json")
+		io.WriteString(w, "{'DB Status': 'OK' }")
+	default:
+		log.Printf("ERROR: Invalid HTTP Method")
+	}
+}
+
 func (ws *Server) Run() {
 	http.HandleFunc("/", ws.Status)
+	http.HandleFunc("/db/status", ws.DbStatus)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+strconv.Itoa(int(ws.Port())), nil))
 }
